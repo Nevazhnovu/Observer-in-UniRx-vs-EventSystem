@@ -1,8 +1,8 @@
+using System;
 using UnityEngine;
 
-public class Listener : MonoBehaviour, ISuperCustomEventHandler
+public class MessageListener : MonoBehaviour, ISuperCustomEventHandler
 {
-    
     private void Awake()
     {
         Messenger.AddListener<ISuperCustomEventHandler>(this.gameObject);
@@ -10,7 +10,8 @@ public class Listener : MonoBehaviour, ISuperCustomEventHandler
     
     public void OnReady(long invokeTime)
     {
-        Debug.Log("Time between message sent and received = "+ (invokeTime - MessagePusher.broadcastTime).ToString() + " ticks");
+        var now = System.DateTime.Now.Ticks;
+        Debug.Log("Time between message sent and received = "+ TimeSpan.FromTicks(now - invokeTime).TotalMilliseconds.ToString() + " milliseconds");
     }
     
     private void OnDestroy()
